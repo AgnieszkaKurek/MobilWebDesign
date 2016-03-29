@@ -7,14 +7,69 @@
     <body>
         <div id="logo">
             <div>baamMusic</div>
+            <img id="menu" src="menuicon.png" alt="menu"></img>
+            <nav class="hideNav">
+                <ul>
+                    <li>Menu Item I</li>
+                    <li>Menu Item I</li>
+                    <li>Menu Item I</li>
+                </ul> 
+            </nav>
         </div>
-        <div id="content">main content here</div>
+        <div id="content"></div>
         <div id="footer">
             <div>Action</div>
             <div>Action</div>
             <div>Action</div>
             
         </div>
+        <script>
+            var data = null;
+            var menu = document.querySelector('#menu');
+            var nav = document.querySelector('#nav');
+            menu.addEventListener('click',function(e){
+              nav.classList.toggle('showNav');
+            });
+            var xmlHttp = new XMLHttpRequest();
+            var contentEl = document.querySelector('#content');
+            var displayedIndex = 0;
+            contentEl.addEventListener('click',function(e){
+                var artists = contentEl.querySelectorAll('.artist');
+                for(var i=0;i<artists.length;i++)
+                {
+                    var temp = artists[i];
+                    temp.classList.add('hideartist');
+                }
+                displayedIndex++;
+                if(displayedIndex===artists.length	)
+                {
+                    displayedIndex = 0;
+                }
+                var artist = artists[displayedIndex];
+                artist.classList.remove('hideartist');
+             });
+             xmlHttp.addEventListener('readystatechange',function(e){
+                    if(xmlHttp.readyState===4){
+                        data = JSON.parse( xmlHttp.response);
+                            for(var i in data){
+                                var a = data[i];
+                                var aElement = document.createElement('div');
+                                aElement.classList.add('artist');
+                                var name = document.createElement('div');
+                                name.innerText = a.artistName;
+                                aElement.appendChild(name);
+                                var img = document.createElement('img');
+                                img.src = a.albums[Math.floor(Math.random() * (a.albums.length -  + 1)) ].imageUrl;
+                                aElement.appendChild(img);
+                                contentEl.appendChild(aElement);
+                            }
+                            
+                        
+                    }
+                });
+                xmlHttp.open('GET','artists.json',true);
+                xmlHttp.send(null);
+        </script>
         
     </body>
 </html>
