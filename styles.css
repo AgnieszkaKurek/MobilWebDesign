@@ -20,3 +20,14 @@ body {
             content: '-Tablet Size!';
         }
 }
+@media screen and (min-width:900px) {
+    
+    .title {
+    background-color: rgba(0, 0, 255, .5);
+    font-size: 1.5em;
+}
+
+        .title:after {
+            content: '-Desktop Size!';
+        }
+}
